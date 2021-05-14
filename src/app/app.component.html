@@ -5,11 +5,11 @@
             <input matInput type="text" placeholder="Enter station id to get weather data" formControlName="stationId">
             <mat-error *ngIf="this.searchForm.hasError">Please provide a station id as input</mat-error>
         </mat-form-field>
+        <button mat-raised-button color="accent" [disabled]="searchForm.controls['stationId'].value === ''">Search</button>
         
-        <button mat-raised-button color="accent">Search</button>
     </form>
-
-    <div class="card" *ngIf="stationData">
+    <span class="error" *ngIf="nullData">The station ID does not exist in the database, try another.</span>
+    <div class="card" *ngIf="stationData && !nullData">
         <h1>Annual Weather Data</h1>
         <div>
             <h2 class="underline">Station</h2>

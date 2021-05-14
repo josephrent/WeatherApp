@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field'; 
 import { BackendService } from './backend.service';
 
@@ -24,29 +24,32 @@ export interface WeatherData {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
-  stationData!: WeatherData;
-  title = 'frontend';
+  stationData!: WeatherData
+  nullData: boolean = false
+  idInput: string = ''
+  title = 'frontend'
   searchForm = new FormGroup({
-    stationId: new FormControl('',Validators.required)
-  });
+    stationId: new FormControl('', Validators.required)
+  })
 
   constructor(private backend: BackendService) {}
   ngOnInit() {
 
   }
-  getData() {
+  async getData() {
+    let id = String(this.searchForm.controls["stationId"].value)
     try {
-      let id = String(this.searchForm.controls["stationId"].value)
-      this.backend.getStationData(id).subscribe((res: WeatherData) => {
-        console.log(res)
-        this.stationData = res
-        this.stationData.year = res.date.substr(0,4)//strip date apart
-        this.stationData.month = res.date.substr(4,2)//strip date apart
-        this.stationData.day = res.date.substr(6,2)//strip date apart
-      })
+      let response = await this.backend.getStationData(id)
+      this.nullData = false
+      this.stationData = response
+      this.stationData.year = response.date.substr(0,4)//strip date apart
+      this.stationData.month = response.date.substr(4,2)//strip date apart
+      this.stationData.day = response.date.substr(6,2)//strip date apart
     }
     catch(err) {
-      console.log(err)
+      if(err.status===404) {
+        this.nullData = true
+      }
     }
   }
 }

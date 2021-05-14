@@ -11,6 +11,6 @@ export class BackendService {
   path = environment.url
 
   getStationData(id: string): any {
-    return this.http.get(this.path+'/weather/'+id)
+    return this.http.get(this.path+'/weather/'+id).toPromise()
   }
 }

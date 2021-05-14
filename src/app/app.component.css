@@ -47,3 +47,8 @@ h1,h2 {
 .card * {
     color: black;
 }
+.error {
+    margin-top: -5px;
+    margin-left: -118px;
+    font-size: 10.5px;
+}
