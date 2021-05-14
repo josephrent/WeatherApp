@@ -1,0 +1,71 @@
+<div class="container">
+    <h1>NOAA Weather Data Tool</h1>
+    <form [formGroup]="searchForm" (ngSubmit)="getData()">
+        <mat-form-field appearance="outline" color="primary">
+            <input matInput type="text" placeholder="Enter station id to get weather data" formControlName="stationId">
+            <mat-error *ngIf="this.searchForm.hasError">Please provide a station id as input</mat-error>
+        </mat-form-field>
+        
+        <button mat-raised-button color="accent">Search</button>
+    </form>
+
+    <div class="card" *ngIf="stationData">
+        <h1>Annual Weather Data</h1>
+        <div>
+            <h2 class="underline">Station</h2>
+            <h2>
+                {{ this.stationData.id }}
+            </h2>
+        </div>
+
+        <div>
+            <h2 class="underline">Date </h2>
+            <h2>
+                {{ this.stationData.month }} - {{ this.stationData.day }} - {{ this.stationData.year }}
+            </h2>
+        </div>
+        <div>
+            <h2 class="underline">Type of Data </h2>
+            <h2>
+                {{ this.stationData.type }}
+            </h2>
+        </div>
+
+        <div>
+            <h2 class="underline">Value</h2>
+            <h2>
+                {{ this.stationData.value }}
+            </h2>
+        </div>
+        <h1>Optional Flags</h1>
+        <div *ngIf="stationData.flag1!==''">
+            <h2 class="underline">Flag 1</h2>
+            <h2>
+                {{ this.stationData.flag1 }}
+            </h2>
+        </div>
+        <div *ngIf="stationData.flag2!==''">
+            <h2 class="underline">Flag 2</h2>
+            <h2>
+                {{ this.stationData.flag2 }}
+            </h2>
+        </div>
+
+        <div *ngIf="stationData.flag3!==''">
+            <h2 class="underline">Flag 3</h2>
+            <h2>
+                {{ this.stationData.flag3 }}
+            </h2>
+        </div>
+
+        <div *ngIf="stationData.flag4!==''">
+            <h2 class="underline">Flag 4</h2>
+            <h2>
+                {{ this.stationData.flag4 }}
+            </h2>
+        </div>
+    </div>
+    
+    <router-outlet></router-outlet>
+</div>
+
